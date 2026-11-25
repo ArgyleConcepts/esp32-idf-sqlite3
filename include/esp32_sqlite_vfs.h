@@ -12,6 +12,13 @@ extern "C" {
 #endif
 
 /**
+ * Custom sqlite3_file_control() opcode querying whether a real underlying
+ * file I/O error (excluding normal EOF SQLITE_IOERR_SHORT_READ) has occurred
+ * on an open esp32 VFS handle. pArg must point to an int (1 if latched, 0 otherwise).
+ */
+#define ESP32_SQLITE_FCNTL_HAS_IOERR 0x70E32001
+
+/**
  * Injectable POSIX I/O operations table for the esp32 SQLite VFS.
  * Any NULL function pointer falls back to the default POSIX implementation.
  * If max_file_offset > 0 and smaller than the platform's off_t maximum, the
