@@ -241,13 +241,16 @@ static bool canonicalize_path(const char *path, char *out, size_t out_size, bool
             continue;
         }
 
-        /* Reject FATFS-ambiguous trailing '.' or ' ' and ASCII control characters in non-. / non-.. segments
-         * so e.g. "images.db." cannot alias "images.db" with a mismatched journal path or lock key. */
+        /* Reject FATFS-ambiguous trailing '.' or ' ', ASCII control characters, '\\' (ChaN FATFS
+         * treats '\\' as a path separator in ff.c IS_SLASH), and FAT-reserved characters so e.g.
+         * "images.db." or "/sdcard/database\\images.db" cannot alias another lock key / journal path. */
         if (seg_start[seg_len - 1U] == '.' || seg_start[seg_len - 1U] == ' ') {
             return false;
         }
         for (size_t i = 0U; i < seg_len; ++i) {
-            if ((unsigned char)seg_start[i] < 0x20U) {
+            const unsigned char ch = (unsigned char)seg_start[i];
+            if (ch < 0x20U || ch == '\\' || ch == '<' || ch == '>' || ch == ':' ||
+                ch == '"' || ch == '|' || ch == '?' || ch == '*') {
                 return false;
             }
         }
