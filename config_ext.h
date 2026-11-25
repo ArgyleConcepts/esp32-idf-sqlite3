@@ -1,7 +1,7 @@
 #define BUILD_sqlite -DNDEBUG
 #define SQLITE_CORE                          1
 #define YYSTACKDEPTH                        20
-#define SQLITE_TEMP_STORE                    1
+#define SQLITE_TEMP_STORE                    3
 #define SQLITE_SYSTEM_MALLOC                 1
 #define SQLITE_OS_OTHER                      1
 #define SQLITE_THREADSAFE                    0
@@ -15,7 +15,7 @@
 #define SQLITE_DEFAULT_FOREIGN_KEYS          0
 #define SQLITE_DEFAULT_MEMSTATUS             0
 #define SQLITE_DEFAULT_MMAP_SIZE             0
-#define SQLITE_DEFAULT_LOCKING_MODE          1
+#define SQLITE_DEFAULT_LOCKING_MODE          0
 #define SQLITE_DEFAULT_LOOKASIDE       512,128
 #define SQLITE_DEFAULT_PAGE_SIZE           512
 #define SQLITE_DEFAULT_PCACHE_INITSZ         8

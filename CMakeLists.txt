@@ -11,6 +11,7 @@ idf_component_register(
         spi_flash
         esp_rom
         esp_hw_support
+        esp_timer
         freertos
 )
 

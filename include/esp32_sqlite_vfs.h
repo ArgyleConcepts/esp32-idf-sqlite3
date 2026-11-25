@@ -14,6 +14,8 @@ extern "C" {
 /**
  * Injectable POSIX I/O operations table for the esp32 SQLite VFS.
  * Any NULL function pointer falls back to the default POSIX implementation.
+ * If max_file_offset > 0 and smaller than the platform's off_t maximum, the
+ * VFS enforces max_file_offset as the representable file offset ceiling.
  */
 typedef struct esp32_sqlite_io_ops {
     void *ctx;
@@ -28,6 +30,7 @@ typedef struct esp32_sqlite_io_ops {
     int (*stat_fn)(void *ctx, const char *path, struct stat *st);
     int (*unlink_fn)(void *ctx, const char *path);
     int (*dir_fsync_fn)(void *ctx, const char *file_path);
+    sqlite3_int64 max_file_offset;
 } esp32_sqlite_io_ops_t;
 
 /**
