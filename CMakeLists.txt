@@ -1,9 +1,28 @@
-set(COMPONENT_ADD_INCLUDEDIRS "include")
+idf_component_register(
+    SRCS
+        "sqlite3.c"
+        "esp32.c"
+    INCLUDE_DIRS
+        "include"
+    PRIV_INCLUDE_DIRS
+        "."
+        "private_include"
+    PRIV_REQUIRES
+        spi_flash
+        esp_rom
+        esp_hw_support
+        freertos
+)
 
-idf_component_register(SRCS "sqlite3.c" "esp32.c" "shox96_0_2.c"
-                       INCLUDE_DIRS "include"
-                       PRIV_INCLUDE_DIRS "private_include"
-                       REQUIRES mbedtls spi_flash
-                       PRIV_REQUIRES console spiffs)
+set_source_files_properties(
+    "esp32.c"
+    PROPERTIES
+        COMPILE_OPTIONS "-Werror;-Wall;-Wextra;-Wformat"
+)
 
-target_compile_options(${COMPONENT_LIB} PRIVATE -w -std=gnu99 -g3 -fno-stack-protector -ffunction-sections -fdata-sections -fstrict-volatile-bitfields -mlongcalls -nostdlib -Wpointer-arith -Wno-error=unused-value -Wno-error=unused-label -Wno-error=unused-function -Wno-error=unused-but-set-variable -Wno-error=unused-variable -Wno-error=deprecated-declarations -Wno-error=char-subscripts -Wno-error=maybe-uninitialized -Wno-unused-parameter -Wno-sign-compare -Wno-old-style-declaration -MMD -c -DF_CPU=240000000L -DESP32 -DCORE_DEBUG_LEVEL=0 -DNDEBUG)
+set_source_files_properties(
+    "sqlite3.c"
+    PROPERTIES
+        COMPILE_OPTIONS
+            "-std=gnu99;-DNDEBUG;-Wno-error;-Wno-unused-parameter;-Wno-unused-function;-Wno-unused-variable;-Wno-unused-but-set-variable;-Wno-unused-label;-Wno-unused-value;-Wno-sign-compare;-Wno-implicit-fallthrough;-Wno-maybe-uninitialized;-Wno-char-subscripts;-Wno-deprecated-declarations;-Wno-old-style-declaration;-Wno-incompatible-pointer-types;-Wno-cast-function-type;-Wno-return-local-addr;-Wno-misleading-indentation;-Wno-dangling-pointer"
+)
